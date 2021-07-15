@@ -6,6 +6,7 @@ import math
 class TimeoutExpired(Exception):
     pass
 
+#Checking the different cases of win or loss
 def checkwin(mlt1):
     i=1
     while i<=3:
@@ -53,7 +54,7 @@ def checkwin(mlt1):
             break
 
 
-
+#Main play function: To choose game settings and interact with the game. Checkwin function is used to check status after each iteration/play
 def letsplay():
     while True:
         diffinput=int(input("\n\nSelect Game difficulty level.\nEnter 1 for Easy (too easy), 2 for Medium, 3 for ahem...A c c e p t a b l e :"))
@@ -70,7 +71,8 @@ def letsplay():
             print("Invalid difficulty level.\nPlease enter valud difficulty level: 1, 2, or 3")
     print("Now enter any key to start the game.\n\n\nBe ready, the sands of time flow fast... :")
     msvcrt.getwche()
-
+    
+    #Creating the Tic-Tac-Toe play-matrix (with lines)
     mlt1=[]
     for i in range(3):
         for j in range(2):
@@ -89,7 +91,11 @@ def letsplay():
     playcount=[]
     
     while True:
+        #Checking win/loss status
         checkwin(mlt1)
+        
+        #Checking if all positions exhausted, if yes, then game over
+        
         if len(playcount)>=9:   
             print("Game Over...\nDas nicht so gut")
             wanna=input("To play again, enter any input. To exit, enter N:")
@@ -99,9 +105,11 @@ def letsplay():
                 sys.exit()   
             else:
                 letsplay()
-        cheat=0
+        
+        cheat=0  #initializing cheat count for this attempt
         while True:
             
+            #Timed input according to game difficulty setting selected
             try:
                 prompt1="You have %d seconds...Enter row no.: " % diffsetting
                 prompt2="\nYou have %d seconds...Enter column no. :" % diffsetting
@@ -125,9 +133,12 @@ def letsplay():
                 else:
                     letsplay()
                     
-            
+            #Checking validity of input
             elif [n1,n2] in playcount or n1 not in range(1,4) or n2 not in range(1,4):
                 print("Um, that position is already occupied or unavailable. Please enter another position. %d tries left" % (2-cheat) )
+                
+                #Checking if player entering wrong input just to get more time to think. If more than limit of wrong inputs, game over.
+                
                 if cheat<2:
                     cheat+=1
                     continue
@@ -142,13 +153,19 @@ def letsplay():
                         letsplay()
 
             break  
-
+            
+        #Appending input position to list of occupied positions if it is valid
+        #Also inserting player's move to play-matrix
+        
         mlt1[1+(n1-1)*3][1+(n2-1)*4]="X"  
         playcount.append([n1,n2]) 
         for i in range(len(mlt1)): 
             print("".join(mlt1[i]))
         checkwin(mlt1)
         input("\nPress Enter to be enthralled at my move. Me the destroyer of worlds mwahaha- :\n")
+        
+        #Computer's move: Randomly generated
+        
         while True and len(playcount)<9:
             n1=random.randint(1,3); n2=random.randint(1,3)
             if [n1,n2] in playcount:
@@ -160,7 +177,7 @@ def letsplay():
                     print("".join(mlt1[i]))
                 break
 
-
+#For input with timeout
 
 def input_with_timeout(prompt, timeout, gameset, timer=time.monotonic):
     sys.stdout.write(prompt)
@@ -188,7 +205,7 @@ def input_with_timeout(prompt, timeout, gameset, timer=time.monotonic):
 
 
 print("\n\nWELCOME! \n\nPLEASE READ THESE INSTRUCTIONS BEFORE PROCEEDING\n\n"
-"-----------------------------------------------Tic Tac Toe Game(X-O Game) by Swapnal Varma"
+"-----------------------------------------------Tic Tac Toe Game(X-O Game) by Sw4pn41 V4rm4"  #Sorry, trying to avoid search results haha
 "------------------------------------------------\n\nIn this 3*3 X-O grid game, you will have to select the box by specifying"
 " The row and column number\nFrom (1 and 1) for top left corner, to (3 and 3) for bottom right corner\n\n"
 "The rows are horizontal, and the columns vertical (if you didn't know that already smh)\nE.g.: Entering row no. as 2"
