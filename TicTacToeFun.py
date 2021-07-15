@@ -187,6 +187,9 @@ def input_with_timeout(prompt, timeout, gameset, timer=time.monotonic):
     countdowner=endtime-timer()
     print(math.ceil(countdowner), end=' ')
     while timer() < endtime:
+        
+        #To check if key for input has been pressed yet, gamesetting taken into account
+        
         if msvcrt.kbhit():
             print("")
             result.append(msvcrt.getwche())
